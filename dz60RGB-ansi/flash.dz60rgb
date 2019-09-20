@@ -1,0 +1,29 @@
+#!/usr/bin/env zsh
+#
+#
+set -u -e -o pipefail -x
+
+echo "Reference: https://www.reddit.com/r/olkb/comments/bhjt7j/dz60rgbansi_mechanical_keyboard_pcb_help/"
+the_file="/apps/my_keyboard/dz60RGB-ansi/dztech_dz60rgb_dzansi.bin"
+stat --format "%s" "$the_file"
+set +x
+sleep 1; echo -n ".";
+sleep 1; echo -n ".";
+sleep 1; echo -n ".";
+set -x
+bootloader="$(lsusb | grep "in DFU Mode")"
+set +x
+if ! test -z "$bootloader" ; then
+  sudo dfu-util -l | grep "alt=0"
+
+  sleep 1; echo -n ".";
+  sleep 1; echo -n ".";
+  sleep 1; echo -n ".";
+  sleep 1; echo -n ".";
+  sleep 1; echo -n ".";
+  sleep 1; echo -n ".";
+
+  sudo dfu-util -v --alt 0 --device "0483:df11" --dfuse-address "0x08000000:leave" --download "$the_file"
+else
+  exit 2
+fi
