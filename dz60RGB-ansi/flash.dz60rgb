@@ -7,14 +7,14 @@ echo "Reference: https://www.reddit.com/r/olkb/comments/bhjt7j/dz60rgbansi_mecha
 the_file="/apps/my_keyboard/dz60RGB-ansi/dztech_dz60rgb_dzansi.bin"
 stat --format "%s" "$the_file"
 echo "=== Setting update permissions:"
-sudo update
+sudo uptime
 sleep 1; echo -n ".";
 sleep 1; echo -n ".";
 sleep 1; echo -n ".";
 sleep 1; echo -n ".";
 sleep 1; echo -n ".";
 sleep 1; echo -n ".";
-if lsusb | grep "in DFU Mode" ; then
+if ! lsusb | grep "in DFU Mode" ; then
   exit 2
 fi
 
