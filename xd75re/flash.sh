@@ -1,12 +1,14 @@
 
-set -x
 set -e
-the_file="/apps/my_keyboard/xd75re/xd75_da99.hex"
+the_file="/apps/my_keyboard/xd75re/xd75_last.hex"
+test -f "$the_file"
 stat --format "%s" "$the_file"
 sleep 1; echo -n ".";
 sleep 1; echo -n ".";
 sleep 1; echo -n ".";
 lsusb | grep "DFU bootloader"
+set -x
+sudo dfu-programmer atmega32u4 get | grep Bootloader
 sudo dfu-programmer atmega32u4 erase --force
 sleep 2
 sudo dfu-programmer atmega32u4 flash "$the_file"
