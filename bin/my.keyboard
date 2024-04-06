@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#
+#
+set -u -e -o pipefail
+
+case "$*" in
+  "-h"|"--help"|"help")
+    echo "$0 -h|--help|help -- Show this message."
+    echo "$0 setup"
+    echo "$0 warn|playing|off"
+    echo
+    ;;
+
+  "setup")
+    set -x
+    cd /progs
+    mkdir -p my.keyboard
+    cd my.keyboard
+    python3 -m venv "$PWD"  --system-site-packages
+    bin/pip install hid
+    sudo xbps-install -S hidapi-devel hidapi
+    ;;
+
+  "warn"|"playing"|"off")
+    if ! test -e /progs/my.keyboard ; then
+      "$0" setup
+    fi
+    cd "$(realpath "$(dirname "$0")")"/..
+    /progs/my.keyboard/bin/python3 the_key_v2/light.py "$@"
+    ;;
+  *)
+    echo "!!! Unknown command: $*" >&2
+    exit 1
+    ;;
+esac
