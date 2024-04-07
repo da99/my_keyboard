@@ -31,6 +31,7 @@ case "$*" in
     ;;
 
   "watch playing")
+    # Inspiration: https://unix.stackexchange.com/questions/674127/is-there-a-way-to-run-a-hook-i-e-shell-script-etc-when-an-audio-device-is-op
     pactl subscribe | while read -r x event y type num; do
     case "$type" in
       source)
