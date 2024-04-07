@@ -8,7 +8,6 @@ case "$*" in
     echo "$0 -h|--help|help -- Show this message."
     echo "$0 setup"
     echo "$0 warn|playing|off"
-    echo "$0 [stop] watch playing"
     echo
     ;;
 
@@ -28,29 +27,6 @@ case "$*" in
     fi
     cd "$(realpath "$(dirname "$0")")"/..
     /progs/my.keyboard/bin/python3 the_key_v2/light.py "$@"
-    ;;
-
-  "watch playing")
-    # Inspiration: https://unix.stackexchange.com/questions/674127/is-there-a-way-to-run-a-hook-i-e-shell-script-etc-when-an-audio-device-is-op
-    pactl subscribe | while read -r x event y type num; do
-    case "$type" in
-      source)
-        if playerctl -a status | grep Playing ; then
-          my.keyboard playing
-        else
-          my.keyboard off
-        fi
-        ;;
-      *)
-        echo "--- skipping: $x $event $y $type $num"
-        ;;
-    esac
-    done
-    ;;
-
-  "stop watch playing")
-    set -x
-    pkill -f "pactl subscribe"
     ;;
 
   *)
