@@ -23,12 +23,11 @@ RAINBOW_SWIRL_5 = 13
 RAINBOW_SWIRL_6 = 14
 # hid device path
 # use hid.enumerate() to figure out
-# list = hid.enumerate()
-# for i in list:
-#   if i['product_string'] == 'The Key v2':
-#     print(i['path'])
-#     PATH = i['path']
-PATH = b'/dev/hidraw2'
+list = hid.enumerate()
+for i in list:
+  if i['product_string'] == 'The Key v2' and i['usage'] == 97:
+    PATH = i['path']
+    break
 print(PATH)
 
 # helper functions
