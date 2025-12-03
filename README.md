@@ -1,4 +1,14 @@
 
+Permissions:
+===========
+```
+sudo nano /etc/udev/rules.d/99-hidraw.rules
+SUBSYSTEMS=="hidraw", GROUP="input", MODE="0666"
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
+
+
 Backups:
 ==========
 1. https://chosfox.com/products/fox65-qmk-via-mechanical-keyboard-kit?variant=45341156868290
