@@ -3,6 +3,7 @@
 #
 set -u -e -o pipefail
 
+RULES_FILE="/etc/udev/rules.d/99-kb-config.rules"
 case "$*" in
   "-h"|"--help"|"help")
     echo "$0 -h|--help|help -- Show this message."
@@ -27,6 +28,25 @@ case "$*" in
     fi
     cd "$(realpath "$(dirname "$0")")"/..
     /progs/my.keyboard/bin/python3 the_key_v2/light.py "$@"
+    ;;
+
+  "up rules")
+    this_file="$(readlink -f "$0")"
+    this_bin="$(dirname "$this_file")"
+    this_dir="$(dirname "$this_bin")"
+    orig_rules="$this_dir/99-hidraw.rules"
+    set -x
+    sudo mkdir -p "/etc/udev/rules.d/"
+    sudo cp -f "$orig_rules" "$RULES_FILE"
+    sudo udevadm control --reload-rules
+    sudo udevadm trigger
+    ;;
+
+  "down rules")
+    set -x
+    sudo rm -f "$RULES_FILE"
+    sudo udevadm control --reload-rules
+    sudo udevadm trigger
     ;;
 
   *)

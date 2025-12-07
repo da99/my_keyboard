@@ -1,0 +1,1 @@
+SUBSYSTEMS=="hidraw", GROUP="input", MODE="0666"
